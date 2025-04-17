@@ -1,0 +1,29 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+
+/* Faz o body ocupar toda a altura da tela */
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  /* Aplica layout flex na aplicação inteira */
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Faz o app ocupar toda a altura e empurrar o conteúdo */
+  app-root {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Garante que o conteúdo cresça e o footer fique no fim */
+  .main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #f8f9fa;
+  }

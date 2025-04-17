@@ -1,0 +1,85 @@
+<div class="container py-4 position-relative">
+
+    <h2 class="mb-4">Lista de Produtos</h2>
+  
+    <a 
+      class="btn btn-success position-absolute top-0 end-0 mt-2 me-2" 
+      [routerLink]="['/produtos/new']" 
+      title="Adicionar Produto">
+      <i class="bi bi-plus-lg"></i>
+    </a>
+
+    <form [formGroup]="filterForm" class="row g-3 mb-3" (ngSubmit)="filterProducts()">
+      <div class="col-md-10">
+        <input type="text" class="form-control" placeholder="Buscar por nome" formControlName="name" />
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+      </div>
+    </form>
+  
+    <table class="table table-bordered table-hover" *ngIf="products.length > 0; else semProdutos">
+      <thead class="table-light">
+        <tr>
+          <th>Nome</th>
+          <th>Categoria</th>
+          <th>Unidade</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.name }}</td>
+          <td>{{ product.categoryProduct }}</td>
+          <td>{{ product.unitOfMeasure }}</td>
+          <td class="text-center">
+            <a 
+              class="btn btn-sm btn-primary me-1" 
+              (click)="editProduct(product)"           
+              title="Editar produto">
+              <i class="bi bi-pencil"></i>
+            </a>
+            <button 
+              class="btn btn-sm btn-danger" 
+              (click)="removeProduct(product.id)"
+              title="Excluir produto">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="d-flex justify-content-center my-4" *ngIf="products.length > 0">
+      <button 
+        class="btn btn-outline-primary me-2" 
+        (click)="previousPage()" 
+        [disabled]="currentPage === 0">
+        Anterior
+      </button>
+  
+      <span class="align-self-center mx-2">
+        Página {{ currentPage + 1 }} de {{ totalPages }}
+      </span>
+  
+      <button 
+        class="btn btn-outline-primary ms-2" 
+        (click)="nextPage()" 
+        [disabled]="currentPage >= totalPages - 1">
+        Próxima
+      </button>
+    </div>
+  
+    <ng-template #semProdutos>
+      <div class="alert alert-warning text-center">
+        Nenhum produto encontrado.
+      </div>
+    </ng-template>
+  
+    <app-confirm-dialog #confirmDialog (confirmed)="confirmDelete()"></app-confirm-dialog>
+    <app-edit-product #editModal (saved)="onProductUpdated($event)"></app-edit-product>
+    
+  </div>
+  

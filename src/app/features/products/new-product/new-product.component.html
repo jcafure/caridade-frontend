@@ -1,0 +1,74 @@
+<div class="container py-4">
+  <!-- Cabeçalho -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Cadastrar Produto</h2>
+    <a class="btn btn-outline-secondary" [routerLink]="['/produtos']">
+      <i class="bi bi-arrow-left"></i> Voltar
+    </a>
+  </div>
+
+  <!-- Formulário -->
+  <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <!-- Nome -->
+      <div class="col-md-6 mb-3">
+        <label for="name" class="form-label fw-semibold text-muted mb-1">Nome</label>
+        <input
+          id="name"
+          type="text"
+          class="form-control"
+          placeholder="Digite o nome do produto"
+          formControlName="name"
+          [class.is-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched"
+        />
+        <div class="invalid-feedback">Nome é obrigatório.</div>
+      </div>
+
+      <!-- Categoria -->
+      <div class="col-md-6 mb-3">
+        <label for="categoryProduct" class="form-label fw-semibold text-muted mb-1">Categoria</label>
+        <select
+          id="categoryProduct"
+          class="form-select"
+          formControlName="categoryProduct"
+          [class.is-invalid]="productForm.get('categoryProduct')?.invalid && productForm.get('categoryProduct')?.touched"
+        >
+          <option value="" disabled selected>Selecione uma categoria</option>
+          <option *ngFor="let category of productCategories" [value]="category">
+            {{ productCategoryLabels[category] }}
+          </option>
+        </select>
+        <div class="invalid-feedback">Categoria é obrigatória.</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <!-- Unidade de Medida -->
+      <div class="col-md-6 mb-3">
+        <label for="unitOfMeasure" class="form-label fw-semibold text-muted mb-1">Unidade de Medida</label>
+        <select
+          id="unitOfMeasure"
+          class="form-select"
+          formControlName="unitOfMeasure"
+          [class.is-invalid]="productForm.get('unitOfMeasure')?.invalid && productForm.get('unitOfMeasure')?.touched"
+        >
+          <option value="" disabled selected>Selecione a unidade</option>
+          <option *ngFor="let unit of unitOfMeasures" [value]="unit">
+            {{ unitOfMeasureLabels[unit] }}
+          </option>
+        </select>
+        <div class="invalid-feedback">Unidade é obrigatória.</div>
+      </div>
+    </div>
+
+    <!-- Botões -->
+    <div class="mt-4">
+      <button type="submit" class="btn btn-primary me-2" [disabled]="productForm.invalid || isSubmitting">
+        <i class="bi bi-save"></i> {{ isSubmitting ? 'Salvando...' : 'Salvar' }}  
+      </button>
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">
+        <i class="bi bi-x-circle"></i> Cancelar
+      </button>
+    </div>
+  </form>
+</div>
