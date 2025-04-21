@@ -1,7 +1,7 @@
-<app-navbar ngSkipHydration></app-navbar>
+<app-navbar *ngIf="shouldShowLayout()" ngSkipHydration></app-navbar>
 
 <main class="main-content">
   <router-outlet></router-outlet>
 </main>
 
-<app-footer></app-footer>
+<app-footer  *ngIf="shouldShowLayout()" ngSkipHydration></app-footer>

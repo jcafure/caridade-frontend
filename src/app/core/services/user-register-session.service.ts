@@ -1,0 +1,23 @@
+// user-register-session.service.ts
+import { Injectable } from '@angular/core';
+import { UserRegisterResponseDto } from '../../models/user-register-response.dto';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+export class UserRegisterSessionService {
+  private userData!: UserRegisterResponseDto;
+
+  setUserData(data: UserRegisterResponseDto) {
+    this.userData = data;
+  }
+
+  getUserData(): UserRegisterResponseDto {
+    return this.userData;
+  }
+
+  clear() {
+    this.userData = undefined!;
+  }
+}
