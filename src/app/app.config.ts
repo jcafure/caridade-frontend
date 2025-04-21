@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { importProvidersFrom } from '@angular/core';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
@@ -17,5 +18,5 @@ export const appConfig: ApplicationConfig = {
        timeOut: 3000,
        positionClass: 'toast-bottom-right',
        preventDuplicates: true,
-     })]
+     }), provideNgxMask()]
 };
