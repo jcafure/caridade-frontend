@@ -30,7 +30,7 @@ export class NewProductComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private router: Router, 
               private productService: ProductsService,
-              private toastr: ToastrService,) {}
+              private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.productForm = this.fb.group({

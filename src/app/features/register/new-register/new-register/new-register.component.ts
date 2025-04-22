@@ -56,8 +56,6 @@ export class NewRegisterComponent implements OnInit {
       password: this.form.value.password
     };
 
-    console.log('Vai chamar o service: ' + JSON.stringify(dto))
-
     this.authService.register(dto).subscribe({
       next: (response: UserRegisterResponseDto) => {
         this.userRegisterSession.setUserData(response);

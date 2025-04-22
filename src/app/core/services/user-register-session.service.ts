@@ -17,6 +17,14 @@ export class UserRegisterSessionService {
     return this.userData;
   }
 
+  getUserEmail(): string {
+    return this.userData.email;
+  }
+
+  getExternalId(): number {
+    return this.userData.internalId;
+  }
+
   clear() {
     this.userData = undefined!;
   }

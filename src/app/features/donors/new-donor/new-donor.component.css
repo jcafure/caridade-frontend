@@ -1,0 +1,13 @@
+.address-group {
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+  }
+  
+  .address-group:hover {
+    background-color: #e9ecef;
+  }
+  
+  .list-group-item {
+    margin-bottom: 10px;
+    border-radius: 5px !important;
+  }
