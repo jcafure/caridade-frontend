@@ -1,0 +1,41 @@
+
+name: SonarCloud Frontend
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main, develop]
+
+jobs:
+  sonar:
+    name: Análise SonarCloud
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint (opcional)
+        run: npm run lint --if-present
+
+      - name: Build app
+        run: npm run build --if-present
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: .
+          args: >
+            -Dsonar.projectKey=jcafure_caridade-frontend
+            -Dsonar.organization=jcafure
+            -Dsonar.javascript.lcov.reportPaths= # sem coverage
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
