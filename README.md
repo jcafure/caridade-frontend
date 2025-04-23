@@ -1,59 +1,79 @@
-# CaridadeFrontend
+# 🍽️ Caridade Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.3.
+Frontend do projeto **Caridade**, uma plataforma solidária para organizar campanhas de distribuição de refeições em comunidades carentes.
 
-## Development server
+## 📌 Visão Geral
 
-To start a local development server, run:
+Este sistema permite:
+- ✅ Criação de contas para doadores
+- ✅ Cadastro e gerenciamento de produtos
+- ✅ Criação e edição de campanhas solidárias
+- ✅ Integração com o microserviço de autenticação via JWT
+- ✅ Interface responsiva com layout limpo baseado em Bootstrap
+
+## 🧰 Tecnologias Utilizadas
+
+- [Angular 19](https://angular.io/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Bootstrap 5](https://getbootstrap.com/)
+- [Standalone Components](https://angular.io/guide/standalone-components)
+- [RxJS](https://rxjs.dev/)
+- [SCSS](https://sass-lang.com/)
+- Integração com backend `Spring Boot (Java 22)`
+
+## 🚀 Como rodar o projeto
+
+### Pré-requisitos
+
+- Node.js (versão 18+)
+- Angular CLI
+
+### Passos
 
 ```bash
+# Clone o repositório
+git clone https://github.com/jcafure/caridade-frontend.git
+cd caridade-frontend
+
+# Instale as dependências
+npm install
+
+# Rode o projeto localmente
 ng serve
-```
+Acesse em: http://localhost:4200
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+🔐 Autenticação
+Este frontend está integrado com o microserviço authorization-service, utilizando JWT.
 
-## Code scaffolding
+Fluxo de Registro:
+Usuário cria conta com email e senha
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+O frontend recebe o userId e token JWT
 
-```bash
-ng generate component component-name
-```
+Usuário é redirecionado para completar seu cadastro como Doador
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+O frontend envia os dados pessoais e endereço ao backend principal (caridade-backend), vinculando ao userId
 
-```bash
-ng generate --help
-```
+🖼️ Telas
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Tela de Login	Cadastro de Doador	Cadastro de Produto
+Em construção	Em breve	✅ Concluído
+📁 Estrutura do Projeto
+bash
+Copiar
+Editar
+src/
+├── app/
+│   ├── core/               # Auth, services, interceptors
+│   ├── features/           # Funcionalidades (produtos, login, doador, etc)
+│   ├── shared/             # Componentes reutilizáveis
+│   └── app.routes.ts       # Rotas standalone
+├── assets/
+└── environments/
+📦 Build para produção
+bash
+Copiar
+Editar
+ng build --configuration production
+👨‍💻 Autor
+Desenvolvido por Jaime Cafure ❤️
