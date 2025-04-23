@@ -15,7 +15,7 @@
         <h2 class="mb-4 text-primary">Login</h2>
   
         <!-- Formulário -->
-        <form>
+        <form [formGroup]="formLogin" (ngSubmit)="onSubmit()">
           <!-- Email -->
           <div class="mb-3 text-start">
             <label for="email" class="form-label">Email address</label>
@@ -28,6 +28,7 @@
                 id="email"
                 class="form-control"
                 formControlName="email"
+                [class.is-invalid]="formLogin.get('email')?.invalid && formLogin.get('email')?.touched"
                 placeholder="Digite seu email"
                 required
               />
@@ -48,6 +49,7 @@
                 formControlName="password"
                 placeholder="Digite sua senha"
                 required
+                [class.is-invalid]="formLogin.get('password')?.invalid && formLogin.get('password')?.touched"
               />
             </div>
           </div>

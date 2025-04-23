@@ -5,14 +5,18 @@ import { HomeComponent } from './features/home/home.component';
 import { ProdutosComponent } from './features/products/products.component';
 import { NewProductComponent } from './features/products/new-product/new-product.component';
 import { NewDonorComponent } from './features/donors/new-donor/new-donor.component';
+import { authGuard } from './auth/auth.guard';
+
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'donor/new-profile', component: NewDonorComponent },
   { path: 'register', component: NewRegisterComponent },
-  { path: '', component: HomeComponent },
-  { path: 'produtos', component: ProdutosComponent },
-  { path: 'produtos/new', component: NewProductComponent },
+
+
+  { path: '', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'produtos', component: ProdutosComponent, canActivate: [authGuard] },
+  { path: 'produtos/new', component: NewProductComponent , canActivate: [authGuard]},
   { path: '**', redirectTo: '' }
 ];

@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { RegisterLoginDto } from '../../models/register-login.dto';
+import { LoginDto, RegisterLoginDto } from '../../models/register-login.dto';
 import { UserRegisterResponseDto } from '../../models/user-register-response.dto';
 import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -16,4 +17,20 @@ export class AuthService {
   register(dto: RegisterLoginDto): Observable<UserRegisterResponseDto> {
     return this.http.post<UserRegisterResponseDto>(`${this.apiUrl}/register`, dto);
   }
+
+  authenticated(dto: LoginDto): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/authenticate`, dto, {
+      responseType: 'text' as 'json'
+    });
+  }
+
+  saveToken(token: string): void {
+    localStorage.setItem('auth_token', token);
+  }
+
+  logout(): void {
+    localStorage.removeItem('auth_token');
+    
+  }
+
 }

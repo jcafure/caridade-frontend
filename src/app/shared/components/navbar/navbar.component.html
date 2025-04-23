@@ -1,9 +1,9 @@
 <nav class="navbar navbar-dark bg-primary navbar-expand-lg">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Painel Caridade</a>
+    <a class="navbar-brand" routerLink="/home">Painel Caridade</a>
 
     <!-- Botão de Logoff no topo direito (mobile) -->
-    <button class="btn btn-outline-light ms-auto d-lg-none" title="Sair">
+    <button class="btn btn-outline-light ms-auto d-lg-none" title="Sair" (click)="logout()">
       <i class="bi bi-box-arrow-right"></i>
     </button>
 
@@ -24,8 +24,8 @@
             Campanha
           </a>
           <ul class="dropdown-menu" aria-labelledby="campanhaDropdown">
-            <li><a class="dropdown-item" href="#">Cadastrar Menu da Campanha</a></li>
-            <li><a class="dropdown-item" href="#">Cadastrar Campanha</a></li>
+            <li><a class="dropdown-item">Cadastrar Menu da Campanha</a></li>
+            <li><a class="dropdown-item">Cadastrar Campanha</a></li>
           </ul>
         </li>
 
