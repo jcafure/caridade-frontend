@@ -1,0 +1,31 @@
+name: Criar Release e fechamento de versão
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        description: 'Tipo de release (patch, minor, major)'
+        required: true
+        default: 'patch'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump version and create tag
+        id: version
+        uses: anothrNick/github-tag-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: ${{ github.event.inputs.release_type }}
+          WITH_V: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.new_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
