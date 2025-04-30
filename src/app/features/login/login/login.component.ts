@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Form, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { LoginDto } from '../../../models/register-login.dto';
 import { ToastrService } from 'ngx-toastr';
+import { jwtDecode } from 'jwt-decode';
+
+import { UserRegisterResponseDto } from '../../../models/user-register-response.dto';
+import { UserRegisterSessionService } from '../../../core/services/user-register-session.service';
+
+
 @Component({
   selector: 'app-login',
   imports: [CommonModule, RouterModule, ReactiveFormsModule],
@@ -16,8 +22,10 @@ export class LoginComponent implements OnInit{
   formLogin!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, 
-             private authService: AuthService,
-             private router: Router, private toastr: ToastrService){}
+              private authService: AuthService,
+              private userSession: UserRegisterSessionService,
+              private router: Router,
+              private toastr: ToastrService){}
 
   ngOnInit(): void {
     this.formLogin = this.formBuilder.group(({
@@ -28,7 +36,6 @@ export class LoginComponent implements OnInit{
   }
 
   onSubmit(){
-    debugger
     if(this.formLogin.invalid){
         return;
       }
@@ -40,8 +47,9 @@ export class LoginComponent implements OnInit{
 
     this.authService.authenticated(dto).subscribe({
       next: (token: string) => {
-        console.log('Token recebido:', token);
         this.authService.saveToken(token);
+        const decodedToken = jwtDecode<UserRegisterResponseDto>(token);
+        this.userSession.setUserData(decodedToken);
         this.router.navigate(['/home']);
       },
         error: (err) => {

@@ -28,4 +28,12 @@ export class UserRegisterSessionService {
   clear() {
     this.userData = undefined!;
   }
+
+  hasPermission(permission: string) {
+    return this.userData?.permissions?.includes(permission);
+  }
+  
+  hasRole(role: string): boolean {
+    return this.userData?.roles?.includes(role);
+  }
 }
