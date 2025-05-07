@@ -1,0 +1,93 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100 w-100">
+    <div class="col-md-6 col-lg-4">
+      <div class="bg-white p-4 rounded-4 shadow-lg text-center">
+  
+        <!-- Logo -->
+        <img src="assets/logo.png" alt="Logo Caridade" style="width: 80px;" class="mb-3" />
+  
+        <!-- Título -->
+        <h2 class="mb-4 text-primary">Criar Conta</h2>
+  
+        <!-- Formulário de Registro -->
+        <form [formGroup]="form" (submit)="onSubmit()">
+          <!-- Email -->
+          <div class="mb-3 text-start">
+            <label for="email" class="form-label">Email</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-envelope"></i>
+              </span>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Digite seu email"
+                formControlName="email"
+                required
+              />
+            </div>
+            <small class="text-danger" *ngIf="hasError('email', 'required')">Email é obrigatório.</small>
+            <small class="text-danger" *ngIf="hasError('email', 'email')">Formato de email inválido.</small>
+          </div>
+  
+          <!-- Senha -->
+          <div class="mb-3 text-start">
+            <label for="password" class="form-label">Senha</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-lock"></i>
+              </span>
+              <input
+                type="password"
+                id="password"
+                class="form-control"
+                placeholder="Digite sua senha"
+                formControlName="password"
+                required
+              />
+            </div>
+            <small class="text-danger" *ngIf="hasError('password', 'required')">Senha é obrigatória.</small>
+            <small class="text-danger" *ngIf="hasError('password', 'minlength')">Senha deve ter no mínimo 6 caracteres.</small>
+          </div>
+  
+          <!-- Confirmar Senha -->
+          <div class="mb-4 text-start">
+            <label for="confirmPassword" class="form-label">Confirmar Senha</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-lock-fill"></i>
+              </span>
+              <input
+                type="password"
+                id="confirmPassword"
+                class="form-control"
+                placeholder="Repita a senha"
+                formControlName="confirmPassword"
+                required
+              />
+              <small class="text-danger" *ngIf="hasError('confirmPassword', 'required')">Confirmação de senha obrigatória.</small>
+              <small class="text-danger" *ngIf="form.errors?.['passwordMismatch'] && form.get('confirmPassword')?.touched">.</small>
+
+            </div>
+            
+          </div>
+  
+          <!-- Botão registrar -->
+          <button
+            type="submit"
+            class="btn btn-success w-100 fw-semibold d-flex justify-content-center align-items-center gap-2"
+          >
+            <i class="bi bi-person-plus"></i> Registrar
+          </button>
+        </form>
+  
+        <!-- Voltar para login -->
+        <p class="mt-4 mb-0">
+          Já tem uma conta?
+          <a routerLink="/login" class="fw-bold text-primary text-decoration-underline">Entrar</a>
+        </p>
+  
+      </div>
+    </div>
+  </div>
+  <app-footer class="mt-5"></app-footer>
