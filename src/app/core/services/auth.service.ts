@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginDto, RegisterLoginDto } from '../../models/register-login.dto';
 import { UserRegisterResponseDto } from '../../models/user-register-response.dto';
@@ -11,7 +11,7 @@ import { UserRegisterSessionService } from './user-register-session.service';
 })
 export class AuthService {
 
-  private readonly apiUrl = 'http://localhost:9091/auth';
+  private readonly apiUrl = 'http://localhost:9092/auth';
 
   constructor(private http: HttpClient,
               private userSession: UserRegisterSessionService) { }
@@ -21,7 +21,9 @@ export class AuthService {
   }
 
   authenticated(dto: LoginDto): Observable<any> {
+    
     return this.http.post<any>(`${this.apiUrl}/authenticate`, dto, {
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       responseType: 'text' as 'json'
     });
   }
