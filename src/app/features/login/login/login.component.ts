@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
       email: this.formLogin.value.email,
       password: this.formLogin.value.password
     };
-
+  
     this.authService.authenticated(dto).subscribe({
       next: (token: string) => {
         this.authService.saveToken(token);
