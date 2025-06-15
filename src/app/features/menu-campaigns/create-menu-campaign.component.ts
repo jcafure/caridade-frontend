@@ -4,6 +4,9 @@ import { ProductDto } from '../../models/product.dto';
 import { MenuCampaingService } from '../../core/services/menu-campaing.service';
 import { ProductsService } from '../../core/services/products.service';
 import { CommonModule } from '@angular/common';
+import { MenuCampaignDto } from '../../models/menu-campaign.dto';
+import { StatusDonationItem } from '../../core/constant/status-donation-item';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-menu-campaign',
@@ -19,7 +22,8 @@ export class CreateMenuCampaignComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder, 
     private menuCampaignService: MenuCampaingService,
-    private productService: ProductsService ){}
+    private productService: ProductsService,
+    private toastr: ToastrService ){}
 
   ngOnInit(): void {
 
@@ -35,7 +39,6 @@ export class CreateMenuCampaignComponent implements OnInit {
   });
 
     this.loadProducts();
-
   }
 
   loadProducts(): void {
@@ -58,12 +61,11 @@ export class CreateMenuCampaignComponent implements OnInit {
 
 addItem(): void {
   if (this.formItem.invalid) return;
-  
 
   const item = this.formItem.value;
 
   if (this.isItemDuplicated(item.productDTO.id)) {
-   alert('Este produto já foi adicionado.');
+  this.toastr.warning('Este produto já foi adicionado!');
    this.formItem.reset();
     return;
   }
@@ -72,7 +74,7 @@ addItem(): void {
     productDTO: item.productDTO,
     quantity: item.quantity
   }));
-
+  
   this.formItem.reset();
 }
 
@@ -87,5 +89,33 @@ removeItem(index: number): void {
   this.items.removeAt(index);
 }
 
+onSubmit(): void{
+  if(this.form.invalid) {
+     this.form.markAllAsTouched();
+    return;
+  }
+
+  const formValue = this.form.value;
+  const dto: MenuCampaignDto = {
+    name: formValue.name,
+    donationItemDTOList: formValue.donationItemDTOList.map((item: any) => ({
+      productDto: item.productDTO,
+      quantity: item.quantity,
+      statusItem: StatusDonationItem.FOR_DONATED,
+    }))
+    
+  };
+  
+  this.menuCampaignService.newMenuCampaign(dto).subscribe({
+    next: () => {
+      this.toastr.success('Menu ' + dto.name + ' criado com sucesso!');
+      this.form.reset();
+      this.items.clear();
+    },
+    error: () => {
+      this.toastr.error('Erro ao criar menu da campanha.');
+    }
+  });
+}
 }
  

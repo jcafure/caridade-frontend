@@ -3,7 +3,7 @@
     <h2 class="mb-0">Cadastrar Menu da Campanha</h2>
   </div>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <!-- Nome do prato -->
     <div class="mb-4">
       <label for="mealType" class="form-label">Nome do prato do próximo atendimento:</label>
