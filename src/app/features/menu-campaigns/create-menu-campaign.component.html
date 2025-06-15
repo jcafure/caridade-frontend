@@ -73,7 +73,7 @@
             <td>{{ item.get('quantity')?.value }}</td>
             <td>{{ item.get('productDTO')?.value?.unitOfMeasure }}</td>
             <td>
-              <button type="button" class="btn btn-sm btn-danger">
+              <button type="button" class="btn btn-sm btn-danger" (click)="removeItem(i)">
                 <i class="bi bi-trash"></i>
               </button>
             </td>

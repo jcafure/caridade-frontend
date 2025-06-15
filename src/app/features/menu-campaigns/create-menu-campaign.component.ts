@@ -58,6 +58,7 @@ export class CreateMenuCampaignComponent implements OnInit {
 
 addItem(): void {
   if (this.formItem.invalid) return;
+  
 
   const item = this.formItem.value;
 
@@ -80,6 +81,10 @@ private isItemDuplicated(productId: number): boolean {
     const existing = control.get('productDTO')?.value;
     return existing?.id === productId;
   });
+}
+
+removeItem(index: number): void {
+  this.items.removeAt(index);
 }
 
 }
