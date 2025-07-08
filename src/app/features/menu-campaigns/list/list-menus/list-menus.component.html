@@ -1,1 +1,77 @@
-<p>list-menus works!</p>
+<div class="container py-4 position-relative">
+    <h2 class="mb-4">Menus</h2>
+  
+    <a 
+      class="btn btn-success position-absolute top-0 end-0 mt-2 me-2" 
+      
+      title="Cadastrar Menus">
+      <i class="bi bi-plus-lg"></i>
+    </a>
+
+    <form class="row g-3 mb-3">
+      <div class="col-md-10">
+        <input type="text" class="form-control" placeholder="Buscar por nome" formControlName="name" />
+      </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary w-100" type="submit">
+          <i class="bi bi-search"></i> Buscar
+        </button>
+      </div>
+    </form>
+  
+    <table class="table table-bordered table-hover">
+      <thead class="table-light">
+        <tr>
+          <th>Nome</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Feijoada</td>
+          <td class="text-center">
+            <a 
+              class="btn btn-sm btn-primary me-1" 
+              title="Visualizar Menu">
+              <i class="bi bi-pencil"></i>
+            </a>
+            <button 
+              class="btn btn-sm btn-danger" 
+              title="Excluir menu">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="d-flex justify-content-center my-4">
+      <button 
+        class="btn btn-outline-primary me-2" 
+        
+        >
+        Anterior
+      </button>
+  
+      <span class="align-self-center mx-2">
+        Página {{ currentPage + 1 }} de {{ totalPages }}
+      </span>
+  
+      <button 
+        class="btn btn-outline-primary ms-2" 
+        [disabled]="currentPage >= totalPages - 1">
+        Próxima
+      </button>
+    </div>
+  
+    <ng-template #semMenus>
+      <div class="alert alert-warning text-center">
+        Nenhum menu encontrado.
+      </div>
+    </ng-template>
+  
+    <!-- <app-confirm-dialog #confirmDialog (confirmed)="confirmDelete()"></app-confirm-dialog> -->
+    <!-- <app-edit-product #editModal (saved)="onProductUpdated($event)"></app-edit-product> -->
+    
+  </div>
+  
