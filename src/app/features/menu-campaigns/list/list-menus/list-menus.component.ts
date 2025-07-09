@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router'; 
 import { MenuCampaignDto } from '../../../../models/menu-campaign.dto';
 import { MenuCampaingService } from '../../../../core/services/menu-campaing.service';
@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'app-list-menus',
   standalone:true,
@@ -24,7 +25,9 @@ export class ListMenusComponent implements OnInit {
   nameFilter = '';
   form! : FormGroup;
 
-  
+  @ViewChild('confirmDialog') confirmDialog!: ConfirmDialogComponent;
+  private idToDelete: number | null = null;
+
   constructor(private menuService: MenuCampaingService,
               private formBuilder: FormBuilder,
               private toastService: ToastrService) {}
@@ -47,5 +50,13 @@ export class ListMenusComponent implements OnInit {
           this.toastService.error(err);
         }
       })       
+  }
+
+  removeMenu(id: number): void {
+    this.idToDelete = id;
+    this.confirmDialog.open(
+      'Confirmar Exclusão',
+      'Você tem certeza que deseja excluir este menu?'
+    );
   }
 }
