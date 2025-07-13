@@ -7,10 +7,12 @@ import { CommonModule } from '@angular/common';
 import { MenuCampaignDto } from '../../models/menu-campaign.dto';
 import { StatusDonationItem } from '../../core/constant/status-donation-item';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-create-menu-campaign',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './create-menu-campaign.component.html',
   styleUrl: './create-menu-campaign.component.css'
 })
@@ -23,7 +25,8 @@ export class CreateMenuCampaignComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, 
     private menuCampaignService: MenuCampaingService,
     private productService: ProductsService,
-    private toastr: ToastrService ){}
+    private toastr: ToastrService,
+    private router: Router){}
 
   ngOnInit(): void {
 
@@ -111,6 +114,7 @@ onSubmit(): void{
       this.toastr.success('Menu ' + dto.name + ' criado com sucesso!');
       this.form.reset();
       this.items.clear();
+      this.router.navigate(['/menu-campaigns/menus'])
     },
     error: () => {
       this.toastr.error('Erro ao criar menu da campanha.');

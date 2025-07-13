@@ -10,13 +10,13 @@ import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confir
 @Component({
   selector: 'app-list-menus',
   standalone:true,
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, ConfirmDialogComponent],
   templateUrl: './list-menus.component.html',
 
 })
 export class ListMenusComponent implements OnInit {
 
-  menus: MenuCampaignDto [] = [];
+  menus: any [] = [];
   currentPage = 0;
   pageSize = 10;
   totalPages = 0;
@@ -58,5 +58,19 @@ export class ListMenusComponent implements OnInit {
       'Confirmar Exclusão',
       'Você tem certeza que deseja excluir este menu?'
     );
+  }
+
+   confirmDelete(): void {
+    if (this.idToDelete !== null) {
+      this.menuService.deleteMenu(this.idToDelete).subscribe(() => {
+      this.filterMenus();
+      this.idToDelete = null;
+      });
+    }
+  }
+
+   filterMenus(): void {
+    this.currentPage = 0;
+    this.loandMenus();
   }
 }

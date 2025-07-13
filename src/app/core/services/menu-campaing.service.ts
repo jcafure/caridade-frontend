@@ -35,4 +35,8 @@ export class MenuCampaingService {
   
     return this.http.get<PaginatedResponse<MenuCampaignDto>>(`${this.apiUrl}/all`, { params });
   }
+
+   deleteMenu(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/delete-menu/${id}`);
+  }
 }
