@@ -1,0 +1,72 @@
+<div class="container mt-5 p-4 border rounded bg-white shadow-sm">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Editar Menu Campanha</h2>
+    <button class="btn btn-outline-secondary">
+      <i class="bi bi-arrow-left"></i> Voltar
+    </button>
+  </div>
+
+  <form>
+
+    <!-- Nome do menu -->
+    <div class="mb-4">
+      <label for="menuName" class="form-label fw-semibold">Nome do Menu</label>
+      <input type="text" class="form-control" id="menuName" formControlName="name" placeholder="Ex: Almoço Solidário" required>
+    </div>
+
+    <!-- Botão para abrir modal -->
+    <div class="mb-3">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <i class="bi bi-plus-circle me-1"></i> Adicionar Produto
+      </button>
+    </div>
+
+    <!-- Lista de itens de doação -->
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>Produto</th>
+            <th>Quantidade</th>
+            <th>Unidade</th>
+            <th>Status</th>
+            <th class="text-center">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>teste</td>
+            <td>
+              <input type="number" class="form-control" formControlName="quantity" min="1">
+            </td>
+            <td>KG</td>
+            <td>
+              <select class="form-select" formControlName="statusItem">
+                <option [value]="0">Para doar</option>
+                <option [value]="1">Doado</option>
+                <option [value]="2">Não necessário</option>
+              </select>
+            </td>
+            <td class="text-center">
+              <button type="button" class="btn btn-outline-danger btn-sm" title="Remover">
+                <i class="bi bi-trash"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Botões -->
+    <div class="mt-4 d-flex gap-2">
+      <button type="submit" class="btn btn-primary">
+        <i class="bi bi-save me-1"></i> Salvar Alterações
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <i class="bi bi-x-circle me-1"></i> Cancelar
+      </button>
+    </div>
+  </form>
+
+
+</div>

@@ -31,6 +31,7 @@
           <td>{{menu.name}}</td>
           <td class="text-center">
             <a 
+             [routerLink]="['/menu-campaigns/edit/', menu.id]"
               class="btn btn-sm btn-primary me-1" 
               title="Visualizar Menu">
               <i class="bi bi-pencil"></i>
