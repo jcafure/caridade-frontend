@@ -39,4 +39,8 @@ export class MenuCampaingService {
    deleteMenu(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete-menu/${id}`);
   }
+
+  findMenuById(id: number): Observable<MenuCampaignDto> {
+    return this.http.get<MenuCampaignDto>(`${this.apiUrl}/find-by-id/${id}`);
+  }
 }
