@@ -8,6 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
 
 import { MenuCampaignDto } from '../../../../models/menu-campaign.dto';
+import { Product } from '../../../../models/product.model';
 
 @Component({
   selector: 'app-update-menu',
@@ -19,7 +20,7 @@ import { MenuCampaignDto } from '../../../../models/menu-campaign.dto';
 export class UpdateMenuComponent implements OnInit {
 
   menuForm!: FormGroup;
-  products: ProductDto [] = [];
+  availableProducts: Product [] = [];
   menuId!: number;
 
   constructor(private formBuilder: FormBuilder,
@@ -32,6 +33,7 @@ export class UpdateMenuComponent implements OnInit {
   ngOnInit(): void {
     this.buildForm();
     this.loadingMenu();
+    this.loadProducts();
 
   }
 
@@ -41,6 +43,15 @@ export class UpdateMenuComponent implements OnInit {
       name: ['', Validators.required],
       donationItemDTOList: this.formBuilder.array([])
     });
+  }
+
+  private loadProducts(){
+    this.productService.findAll(0, 0, 'name', 'asc', '').subscribe({
+      next: (products) => {
+         this.availableProducts = products.content;
+      }
+    })
+
   }
 
   private loadingMenu() {
@@ -72,5 +83,5 @@ export class UpdateMenuComponent implements OnInit {
 
   goBack(): void {
      this.router.navigate(['/menu-campaigns/menus']);
- }
+  }
 }
