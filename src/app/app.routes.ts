@@ -6,6 +6,7 @@ import { ProdutosComponent } from './features/products/products.component';
 import { NewProductComponent } from './features/products/new-product/new-product.component';
 import { NewDonorComponent } from './features/donors/new-donor/new-donor.component';
 import { authGuard } from './auth/auth.guard';
+import { CreateMenuCampaignComponent } from './features/menu-campaigns/create-menu-campaign.component';
 
 
 export const routes: Routes = [
@@ -18,5 +19,6 @@ export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [authGuard] },
   { path: 'produtos', component: ProdutosComponent, canActivate: [authGuard] },
   { path: 'produtos/new', component: NewProductComponent , canActivate: [authGuard]},
+  { path: 'menu-campaigns/new', component: CreateMenuCampaignComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];

@@ -8,7 +8,7 @@ import { DonorRegisterResponseDto } from '../../models/donor-register-response.d
   providedIn: 'root'
 })
 export class DonorRegisterService {
-  private readonly apiUrl = 'http://localhost:8080/donors';
+  private readonly apiUrl = 'http://localhost:9090/donors';
 
   constructor(private http: HttpClient) { }
 
