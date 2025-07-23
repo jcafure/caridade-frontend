@@ -9,18 +9,19 @@ import { CommonModule } from '@angular/common';
 
 import { MenuCampaignDto } from '../../../../models/menu-campaign.dto';
 import { Product } from '../../../../models/product.model';
+import { AddProductsModalComponent } from "../../../../shared/products-dialog/add-products-modal/add-products-modal.component";
 
 @Component({
   selector: 'app-update-menu',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, AddProductsModalComponent],
   templateUrl: './update-menu.component.html',
   styleUrl: './update-menu.component.css'
 })
 export class UpdateMenuComponent implements OnInit {
 
   menuForm!: FormGroup;
-  availableProducts: Product [] = [];
+  availableProducts: ProductDto [] = [];
   menuId!: number;
 
   constructor(private formBuilder: FormBuilder,
@@ -46,9 +47,9 @@ export class UpdateMenuComponent implements OnInit {
   }
 
   private loadProducts(){
-    this.productService.findAll(0, 0, 'name', 'asc', '').subscribe({
-      next: (products) => {
-         this.availableProducts = products.content;
+    this.productService.findAllProductDto(0, 0, 'name', 'asc', '').subscribe({
+      next: (product) => {
+         this.availableProducts = product.content;
       }
     })
 
@@ -80,6 +81,16 @@ export class UpdateMenuComponent implements OnInit {
   get donationItems(): FormArray {
     return this.menuForm.get('donationItemDTOList') as FormArray;
   }
+
+  addToFormArray(item: any): void {
+  const itemForm = this.formBuilder.group({
+    productDto: [item.productDTO],
+    quantity: [item.quantity, [Validators.required, Validators.min(1)]],
+    statusItem: ['Aguardando Doação', Validators.required]
+  });
+
+  this.donationItems.push(itemForm);
+}
 
   goBack(): void {
      this.router.navigate(['/menu-campaigns/menus']);

@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID, ViewChild } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductDto } from '../../../models/product.dto';
+
 
 @Component({
   selector: 'app-add-products-modal',
@@ -14,9 +15,12 @@ export class AddProductsModalComponent implements OnInit {
 
   @Input() availableProducts: ProductDto[] = [];
   @Output() productAdded = new EventEmitter<any>();
+  @ViewChild('addProductModal', { static: false }) modalElementRef!: ElementRef;
+
   addProductForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder){}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, 
+  private formBuilder: FormBuilder){}
 
   ngOnInit(): void {
     this.addProductForm = this.formBuilder.group({
@@ -26,10 +30,37 @@ export class AddProductsModalComponent implements OnInit {
   }
 
   addProduct(): void {
-  const selectedProductId = this.addProductForm.value.productId;
-  const selectedProduct = this.availableProducts.find(p => p.id === selectedProductId);
+    debugger
+    if (this.addProductForm.invalid) {
+      this.addProductForm.markAllAsTouched();
+      return;
+  }
+  
+    const item = this.addProductForm.value;
+    const selectedProduct = this.availableProducts.find(
+       p => p.id === + item.productId);
 
-  if (!selectedProduct) return;
+    this.productAdded.emit({
+      productDTO: selectedProduct,
+      quantity: item.quantity,
+      statusItem: item.statusItem
+  });
+
+  this.addProductForm.reset({quantity: 1})
+
+  this.closeModal();
+  
+}
+
+async closeModal(): Promise<void> {
+  if (isPlatformBrowser(this.platformId)) {
+   const { Modal } = await import('bootstrap');
+   const modalInstance = Modal.getInstance(this.modalElementRef.nativeElement)
+      || new Modal(this.modalElementRef.nativeElement);
+    modalInstance.hide();
   }
 
 }
+}
+
+
