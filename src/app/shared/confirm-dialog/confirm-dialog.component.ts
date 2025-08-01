@@ -11,6 +11,7 @@ declare var bootstrap: any;
 export class ConfirmDialogComponent {
   @ViewChild('confirmModal', { static: true }) modalElement!: ElementRef;
   @Output() confirmed = new EventEmitter<void>();
+  private confirmCallback: (() => void) | null = null;
 
   title: string = '';
   message: string = '';

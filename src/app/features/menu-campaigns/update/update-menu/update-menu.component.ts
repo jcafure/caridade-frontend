@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MenuCampaingService } from '../../../../core/services/menu-campaing.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { ProductDto } from '../../../../models/product.dto';
@@ -6,15 +6,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProductsService } from '../../../../core/services/products.service';
 import { ToastrService } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-
 import { MenuCampaignDto } from '../../../../models/menu-campaign.dto';
-import { Product } from '../../../../models/product.model';
 import { AddProductsModalComponent } from "../../../../shared/products-dialog/add-products-modal/add-products-modal.component";
+import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-update-menu',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, AddProductsModalComponent],
+  imports: [CommonModule, ReactiveFormsModule, AddProductsModalComponent, ConfirmDialogComponent],
   templateUrl: './update-menu.component.html',
   styleUrl: './update-menu.component.css'
 })
@@ -23,6 +22,9 @@ export class UpdateMenuComponent implements OnInit {
   menuForm!: FormGroup;
   availableProducts: ProductDto [] = [];
   menuId!: number;
+
+  private idToDelete: number | null = null;
+  @ViewChild('confirmDialog') confirmDialog!: ConfirmDialogComponent;
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute, 
@@ -35,7 +37,6 @@ export class UpdateMenuComponent implements OnInit {
     this.buildForm();
     this.loadingMenu();
     this.loadProducts();
-
   }
 
    private buildForm() {
@@ -52,11 +53,9 @@ export class UpdateMenuComponent implements OnInit {
          this.availableProducts = product.content;
       }
     })
-
   }
 
   private loadingMenu() {
-    
     this.menuId = Number(this.route.snapshot.paramMap.get('id'));
     this.menuService.findMenuById(this.menuId).subscribe({
       next: (menu: MenuCampaignDto) => {
@@ -72,8 +71,7 @@ export class UpdateMenuComponent implements OnInit {
               statusItem: [item.statusItem]
             });
            this.donationItems.push(itemGroup);
-
-        })
+        });
       }
     })
   }
@@ -94,5 +92,20 @@ export class UpdateMenuComponent implements OnInit {
 
   goBack(): void {
      this.router.navigate(['/menu-campaigns/menus']);
+  }
+
+  removeMenu(index: number): void {
+    this.idToDelete = index;
+    this.confirmDialog.open(
+      'Confirmar Exclusão',
+      'Você tem certeza que deseja excluir este item?'
+    );
+   }
+
+   confirmRemove(): void {
+    if (this.idToDelete !== null && this.idToDelete >= 0) {
+      this.donationItems.removeAt(this.idToDelete);
+      this.idToDelete = null;
+    }
   }
 }

@@ -39,11 +39,12 @@
             <td>
              <input type="number" class="form-control" formControlName="quantity" />
             </td>
-           
             <td>{{item.value.productDto.unitOfMeasure}}</td>
             <td>{{item.value.statusItem}}</td>
             <td class="text-center">
-              <button type="button" class="btn btn-outline-danger btn-sm" title="Remover">
+              <button type="button"
+                class="btn btn-outline-danger btn-sm"
+                title="Remover">
                 <i class="bi bi-trash"></i>
               </button>
             </td>
@@ -63,6 +64,7 @@
     </div>
 
     <app-add-products-modal  [availableProducts]="availableProducts" (productAdded)="addToFormArray($event)"></app-add-products-modal>
+    <app-confirm-dialog #confirmDialog (confirmed)="confirmRemove()"></app-confirm-dialog>
   </form>
 
 
