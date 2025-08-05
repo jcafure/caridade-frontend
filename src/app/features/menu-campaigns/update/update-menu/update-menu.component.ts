@@ -99,7 +99,7 @@ export class UpdateMenuComponent implements OnInit {
     this.productToRemove = index.productDto;
     this.confirmDialog.open(
       'Confirmar Exclusão',
-      'Você tem certeza que deseja remover este produto da lista de menu?'
+      'Você tem certeza que deseja remover este produto?'
     );
   }
 
