@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MenuCampaingService } from '../../../../core/services/menu-campaing.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { ProductDto } from '../../../../models/product.dto';
@@ -20,18 +20,19 @@ import { ConfirmDialogComponent } from '../../../../shared/confirm-dialog/confir
 export class UpdateMenuComponent implements OnInit {
 
   menuForm!: FormGroup;
-  availableProducts: ProductDto [] = [];
+  availableProducts: ProductDto[] = [];
   menuId!: number;
 
-  private idToDelete: number | null = null;
+  private productToRemove: any;
   @ViewChild('confirmDialog') confirmDialog!: ConfirmDialogComponent;
 
   constructor(private formBuilder: FormBuilder,
-              private route: ActivatedRoute, 
-              private router:Router,
-              private menuService: MenuCampaingService,
-              private productService: ProductsService,
-              private toastr: ToastrService){}
+    private route: ActivatedRoute,
+    private router: Router,
+    private menuService: MenuCampaingService,
+    private productService: ProductsService,
+    private changeDetector: ChangeDetectorRef,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.buildForm();
@@ -39,7 +40,7 @@ export class UpdateMenuComponent implements OnInit {
     this.loadProducts();
   }
 
-   private buildForm() {
+  private buildForm() {
     this.menuForm = this.formBuilder.group({
       id: [null],
       name: ['', Validators.required],
@@ -47,10 +48,10 @@ export class UpdateMenuComponent implements OnInit {
     });
   }
 
-  private loadProducts(){
+  private loadProducts() {
     this.productService.findAllProductDto(0, 0, 'name', 'asc', '').subscribe({
       next: (product) => {
-         this.availableProducts = product.content;
+        this.availableProducts = product.content;
       }
     })
   }
@@ -60,52 +61,59 @@ export class UpdateMenuComponent implements OnInit {
     this.menuService.findMenuById(this.menuId).subscribe({
       next: (menu: MenuCampaignDto) => {
         this.menuForm.patchValue({
-            id:menu.id,
-            name: menu.name
+          id: menu.id,
+          name: menu.name
         });
 
         menu.donationItemDTOList.forEach(item => {
-            const itemGroup = this.formBuilder.group({
-              productDto: [item.productDto],
-              quantity: [item.quantity],
-              statusItem: [item.statusItem]
-            });
-           this.donationItems.push(itemGroup);
+          const itemGroup = this.formBuilder.group({
+            productDto: [item.productDto],
+            quantity: [item.quantity],
+            statusItem: [item.statusItem]
+          });
+          this.donationItems.push(itemGroup);
         });
       }
     })
   }
-  
+
   get donationItems(): FormArray {
     return this.menuForm.get('donationItemDTOList') as FormArray;
   }
 
   addToFormArray(item: any): void {
-  const itemForm = this.formBuilder.group({
-    productDto: [item.productDTO],
-    quantity: [item.quantity, [Validators.required, Validators.min(1)]],
-    statusItem: ['Aguardando Doação', Validators.required]
-  });
+    const itemForm = this.formBuilder.group({
+      productDto: [item.productDTO],
+      quantity: [item.quantity, [Validators.required, Validators.min(1)]],
+      statusItem: ['Aguardando Doação', Validators.required]
+    });
 
-  this.donationItems.push(itemForm);
-}
-
-  goBack(): void {
-     this.router.navigate(['/menu-campaigns/menus']);
+    this.donationItems.push(itemForm);
   }
 
-  removeMenu(index: number): void {
-    this.idToDelete = index;
+  goBack(): void {
+    this.router.navigate(['/menu-campaigns/menus']);
+  }
+
+  removeProduct(index: any): void {
+    this.productToRemove = index.productDto;
     this.confirmDialog.open(
       'Confirmar Exclusão',
-      'Você tem certeza que deseja excluir este item?'
+      'Você tem certeza que deseja remover este produto da lista de menu?'
     );
-   }
+  }
 
-   confirmRemove(): void {
-    if (this.idToDelete !== null && this.idToDelete >= 0) {
-      this.donationItems.removeAt(this.idToDelete);
-      this.idToDelete = null;
+  confirmRemove(): void {
+    if (this.productToRemove !== null) {
+      const filteredControls = this.donationItems.controls.filter(
+        control => control.value.productDto !== this.productToRemove
+      );
+
+      const newArray = this.formBuilder.array(filteredControls);
+
+      this.menuForm.setControl('donationItemDTOList', newArray);
+      this.productToRemove = null;
+      this.changeDetector.detectChanges();
     }
   }
 }
