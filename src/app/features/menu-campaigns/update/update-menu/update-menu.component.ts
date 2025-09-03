@@ -116,4 +116,32 @@ export class UpdateMenuComponent implements OnInit {
       this.changeDetector.detectChanges();
     }
   }
+
+  onSubmit(): void{
+    if(this.menuForm.invalid) {
+       this.menuForm.markAllAsTouched();
+      return;
+    }
+  
+    const formValue = this.menuForm.value;
+    const dto: MenuCampaignDto = {
+      id: this.menuId,
+      name: formValue.name,
+      donationItemDTOList: formValue.donationItemDTOList.map((item: any) => ({
+        productDto: item.productDto, 
+        quantity: Number(item.quantity)
+      }))
+    };
+    
+    this.menuService.updateMenu(dto).subscribe({
+      next: () => {
+        this.toastr.success('Menu ' + dto.name + ' criado com sucesso!');
+        this.menuForm.reset();
+        this.router.navigate(['/menu-campaigns/menus'])
+      },
+      error: () => {
+        this.toastr.error('Erro ao editar cardápio.');
+      }
+    });
+  }
 }

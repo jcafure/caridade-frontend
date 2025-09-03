@@ -43,4 +43,8 @@ export class MenuCampaingService {
   findMenuById(id: number): Observable<MenuCampaignDto> {
     return this.http.get<MenuCampaignDto>(`${this.apiUrl}/find-by-id/${id}`);
   }
+
+   updateMenu(dto: MenuCampaignDto): Observable<MenuCampaignDto>{
+      return this.http.put<MenuCampaignDto>(`${this.apiUrl}/update-menus`, dto);
+    }
 }

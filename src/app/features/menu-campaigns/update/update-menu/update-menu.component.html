@@ -6,7 +6,7 @@
     </button>
   </div>
 
-  <form  [formGroup]="menuForm">
+  <form  [formGroup]="menuForm" (ngSubmit)="onSubmit()">
     <div class="mb-4">
       <label for="menuName" class="form-label fw-semibold">Nome do Menu</label>
       <input type="text" class="form-control" id="menuName" formControlName="name" placeholder="Ex: Almoço Solidário" required>
