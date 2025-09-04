@@ -7,6 +7,8 @@ import { NewProductComponent } from './features/products/new-product/new-product
 import { NewDonorComponent } from './features/donors/new-donor/new-donor.component';
 import { authGuard } from './auth/auth.guard';
 import { CreateMenuCampaignComponent } from './features/menu-campaigns/create-menu-campaign.component';
+import { ListMenusComponent } from './features/menu-campaigns/list/list-menus/list-menus.component';
+import { UpdateMenuComponent } from './features/menu-campaigns/update/update-menu/update-menu.component';
 
 
 export const routes: Routes = [
@@ -20,5 +22,7 @@ export const routes: Routes = [
   { path: 'produtos', component: ProdutosComponent, canActivate: [authGuard] },
   { path: 'produtos/new', component: NewProductComponent , canActivate: [authGuard]},
   { path: 'menu-campaigns/new', component: CreateMenuCampaignComponent, canActivate: [authGuard] },
+  { path: 'menu-campaigns/menus', component: ListMenusComponent, canActivate: [authGuard] },
+  { path: 'menu-campaigns/edit/:id', component: UpdateMenuComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '' }
 ];

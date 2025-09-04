@@ -33,6 +33,26 @@ export class ProductsService {
     return this.http.get<PaginatedResponse<Product>>(`${this.apiUrl}/all`, { params });
   }
 
+  findAllDto(
+    page: number,
+    size: number,
+    sortField: string,
+    sortDirection: string,
+    name: string
+  ): Observable<PaginatedResponse<ProductDto>> {
+    
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size)
+      .set('sort', `${sortField},${sortDirection}`);
+  
+    if (name.trim()) {
+      params = params.set('name', name.trim());
+    }
+  
+    return this.http.get<PaginatedResponse<ProductDto>>(`${this.apiUrl}/all`, { params });
+  }
+
    
   findAllProductDto(
     page: number,

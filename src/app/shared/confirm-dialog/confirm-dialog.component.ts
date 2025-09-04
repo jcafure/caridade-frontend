@@ -1,5 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { Modal } from 'bootstrap';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 declare var bootstrap: any;
 
@@ -11,11 +10,14 @@ declare var bootstrap: any;
 export class ConfirmDialogComponent {
   @ViewChild('confirmModal', { static: true }) modalElement!: ElementRef;
   @Output() confirmed = new EventEmitter<void>();
+  private confirmCallback: (() => void) | null = null;
 
   title: string = '';
   message: string = '';
 
   private modal: any;
+
+  constructor(private changeDetector: ChangeDetectorRef){}
 
   ngAfterViewInit(): void {
     if (typeof window !== 'undefined') {
@@ -28,6 +30,7 @@ export class ConfirmDialogComponent {
   open(title: string, message: string): void {
     this.title = title;
     this.message = message;
+    this.changeDetector.detectChanges();
     this.modal.show();
   }
 
